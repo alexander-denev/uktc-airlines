@@ -1,0 +1,60 @@
+/* General styles */
+body {
+    background-color: #343434;
+    width: max-content;
+    height: max-content;
+    display: grid;
+    grid-template-columns: max-content max-content;
+}
+
+#legend {
+    background-color: #F7FFF7;
+    padding: 10px;
+    border-radius: 2vh;
+    width: max-content;
+    height: max-content;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    line-height: 1.5;
+}
+
+.planeSVG {
+    display: grid;
+
+}
+.airplanePolygon {
+    stroke: black;
+    stroke-width: 1px;
+    fill: #F7FFF7;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Airplane seat classes */
+.class1 {
+    background-color: rgb(36, 195, 0);
+}
+.class2 {
+    background-color: rgb(0, 81, 255);
+}
+.class3 {
+    background-color: rgb(232, 170, 0);
+    transform: scaleY(1.5) scaleX(1.2);
+}
+.class4 {
+    background-color: rgb(0, 117, 0);
+}
+.class1, .class2, .class3, .class4 {
+    border: 1px solid black;
+    text-align: center;
+}
