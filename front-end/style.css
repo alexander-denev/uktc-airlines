@@ -1,10 +1,10 @@
 /* General styles */
 body {
     background-color: #343434;
-    width: max-content;
+    width: 100;
     height: max-content;
     display: grid;
-    grid-template-columns: max-content max-content;
+    grid-template-columns: max-content auto;
 }
 
 #legend {
@@ -18,8 +18,8 @@ body {
     line-height: 1.5;
 }
 
-.planeSVG {
-    display: grid;
+#planeDIV {
+    justify-self: center;
 
 }
 .airplanePolygon {
@@ -27,6 +27,7 @@ body {
     stroke-width: 1px;
     fill: #F7FFF7;
 }
+
 
 
 
