@@ -1,6 +1,7 @@
 // Templates
 tPolygon = () => document.createElementNS("http://www.w3.org/2000/svg", "polygon");
 tSvg = () => document.createElementNS("http://www.w3.org/2000/svg", "svg");
+tText = () => document.createElementNS('http://www.w3.org/2000/svg', 'text');
 
 // Fetch
 const data = {
@@ -70,66 +71,63 @@ fetch('http://localhost:8080/api/your-endpoint')
     .catch(error => console.error('Error:', error));
 */
 
+// On click
+function seatClick(seat) {
+    console.log(seat['column']+seat['row'] + ' clicked');
+}
+
 // Render
 var planeDiv = document.getElementById('planeDiv');
 //planeDiv.innerHTML = data['plane']['svg'];
+var planeSvg = tSvg();
+planeSvg.setAttribute('id','planeSvg');
+planeSvg.setAttribute("width",'0px');
+planeSvg.setAttribute("height",'0px');
 
 data['seats'].forEach(clas => {
-    switch (clas['class']) {
-        default: {
-            var htmlSeatClass = 'error';
-        }
-        case 'Economy Class': {
-            var htmlSeatClass = 1;
-            break;
-        }
-        case 'Premium Economy Class':{
-            var htmlSeatClass = 4;
-            break;
-        }    
-        case 'Business Class':{
-            var htmlSeatClass = 2;
-            break;
-        }
-        case 'First Class':{
-            var htmlSeatClass = 3;
-            break;
-        }
-    }
+
+    let htmlSeatClass = [
+        'Economy Class','Business Class','First Class','Premium Economy Class'
+    ].indexOf(clas['class']) +1;
+
     clas['occurrences'].forEach(seat => {
-        var polygon = tPolygon();
-        polygon.setAttribute("class", `class${htmlSeatClass}`);
-        var svg = tSvg();
-        svg.setAttribute("width", 0);
-        svg.setAttribute("height", 0);
-        svg.setAttribute("class", 'svg');
-        clas['polygon'].forEach(coords => {
-            var point = svg.createSVGPoint();
-            point.x = coords['x'];
-            point.y = coords['y'];
-            polygon.points.appendItem(point);
-            polygon.class = 'class' + htmlSeatClass;
-            if (coords['x'] > svg.getAttribute("width")) {
-                svg.setAttribute("width", coords['x']);
+        let poly = tPolygon();
+        let pointsForCentroid = [];
+        clas['polygon'].forEach(geo => {
+            let point = planeSvg.createSVGPoint();
+            point.x = geo['x'] + seat['x'];
+            point.y = geo['y'] + seat['y'];
+            poly.points.appendItem(point);
+            
+            pointsForCentroid.push([point.x, point.y]);
+
+            if (point.x > parseInt(planeSvg.getAttribute("width"))) {
+                planeSvg.setAttribute("width", point.x + 'px');
             }
-            if (coords['y'] > svg.getAttribute("height")) {
-                svg.setAttribute("height", coords['y']);
+            if (point.y > parseInt(planeSvg.getAttribute("height"))) {
+                planeSvg.setAttribute("height", point.y + 'px');
             }
         })
-        planeDiv.style.width = 0;
-        planeDiv.style.height = 0;
-        console.log(seat['x'] + parseInt(svg.getAttribute("width")));
-        if (seat['x'] + parseInt(svg.getAttribute("width")) > parseInt(planeDiv.style.width)) {
-            planeDiv.style.width = (seat['x'] + parseInt(svg.getAttribute("width"))) + "px";
-        }
-        if (seat['y'] + parseInt(svg.getAttribute("height")) > parseInt(planeDiv.style.height)) {
-            planeDiv.style.height = (seat['y'] + parseInt(svg.getAttribute("height"))) + "px";
-        }
-        console.log(parseInt(planeDiv.style.width));
-        svg.setAttribute("style", `top:${seat['y']}px; left:${seat['x']}px`);
-        svg.appendChild(polygon);
-        planeDiv.appendChild(svg);
+        let polyCenter = d3.polygonCentroid(pointsForCentroid);
+        poly.setAttribute('class', `class${htmlSeatClass}`);
+        poly.addEventListener('click', () => seatClick(seat));
+ 
+        planeSvg.appendChild(poly);
+
+        let text = tText();
+        text.textContent = seat['column']+seat['row'];
+        text.setAttribute('x',polyCenter[0]);
+        text.setAttribute('y',polyCenter[1]);
+        text.addEventListener('click', () => seatClick(seat));
+        
+        planeSvg.appendChild(text);
+
+    })
+
+    
+        
         
 
     })
-})
+
+planeDiv.appendChild(planeSvg);
