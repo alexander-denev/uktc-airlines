@@ -8,9 +8,10 @@ const data = {
     {
         "class": "First Class",
         "polygon": [
-        {"x": 10, "y": 20},
-        {"x": 30, "y": 40},
-        {"x": 50, "y": 60}
+        {"x": 0, "y": 0},
+        {"x": 50, "y": 0},
+        {"x": 50, "y": 50},
+        {"x": 0, "y": 50}
         ],
         "occurrences": [
         {"x": 15, "y": 25, "row": "A", "column": 1},
@@ -23,9 +24,10 @@ const data = {
     {
         "class": "Economy Class",
         "polygon": [
-        {"x": 70, "y": 80},
-        {"x": 90, "y": 100},
-        {"x": 110, "y": 120}
+        {"x": 0, "y": 0},
+        {"x": 40, "y": 0},
+        {"x": 40, "y": 40},
+        {"x": 0, "y": 40}
         ],
         "occurrences": [
         {"x": 75, "y": 85, "row": "D", "column": 1},
@@ -69,32 +71,65 @@ fetch('http://localhost:8080/api/your-endpoint')
 */
 
 // Render
-var planeDIV = document.getElementById('planeDIV');
-planeDIV.innerHTML = data['plane']['svg'];
+var planeDiv = document.getElementById('planeDiv');
+//planeDiv.innerHTML = data['plane']['svg'];
 
 data['seats'].forEach(clas => {
     switch (clas['class']) {
-        case 'Economy Class':
+        default: {
+            var htmlSeatClass = 'error';
+        }
+        case 'Economy Class': {
             var htmlSeatClass = 1;
-        case 'Premium Economy Class':
+            break;
+        }
+        case 'Premium Economy Class':{
             var htmlSeatClass = 4;
-        case 'Business Class':
+            break;
+        }    
+        case 'Business Class':{
             var htmlSeatClass = 2;
-        case 'First Class':
+            break;
+        }
+        case 'First Class':{
             var htmlSeatClass = 3;
-    };
-    var points = '';
-    clas['polygon'].forEach(coords => {
-        points += coords['x'] + ',' + coords['y'] + ' ';
-    });
-    console.log(points);
-    var newDiv = document.createElement('div');
-    var newSvg = tSvg();
-    var newPoly = tPolygon();
-    newPoly.setAttribute('points', points);
-    newSvg.setAttribute('width', '300');
-    newSvg.setAttribute('height', '300');
-    newSvg.appendChild(newPoly);
-    newDiv.appendChild(newSvg);
-    planeDIV.appendChild(newDiv);
-});
+            break;
+        }
+    }
+    clas['occurrences'].forEach(seat => {
+        var polygon = tPolygon();
+        polygon.setAttribute("class", `class${htmlSeatClass}`);
+        var svg = tSvg();
+        svg.setAttribute("width", 0);
+        svg.setAttribute("height", 0);
+        svg.setAttribute("class", 'svg');
+        clas['polygon'].forEach(coords => {
+            var point = svg.createSVGPoint();
+            point.x = coords['x'];
+            point.y = coords['y'];
+            polygon.points.appendItem(point);
+            polygon.class = 'class' + htmlSeatClass;
+            if (coords['x'] > svg.getAttribute("width")) {
+                svg.setAttribute("width", coords['x']);
+            }
+            if (coords['y'] > svg.getAttribute("height")) {
+                svg.setAttribute("height", coords['y']);
+            }
+        })
+        planeDiv.style.width = 0;
+        planeDiv.style.height = 0;
+        console.log(seat['x'] + parseInt(svg.getAttribute("width")));
+        if (seat['x'] + parseInt(svg.getAttribute("width")) > parseInt(planeDiv.style.width)) {
+            planeDiv.style.width = (seat['x'] + parseInt(svg.getAttribute("width"))) + "px";
+        }
+        if (seat['y'] + parseInt(svg.getAttribute("height")) > parseInt(planeDiv.style.height)) {
+            planeDiv.style.height = (seat['y'] + parseInt(svg.getAttribute("height"))) + "px";
+        }
+        console.log(parseInt(planeDiv.style.width));
+        svg.setAttribute("style", `top:${seat['y']}px; left:${seat['x']}px`);
+        svg.appendChild(polygon);
+        planeDiv.appendChild(svg);
+        
+
+    })
+})
