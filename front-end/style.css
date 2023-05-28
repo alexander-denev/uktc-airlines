@@ -1,11 +1,12 @@
 /* General styles */
 body {
-    background-color: #343434;
+    background-color: #F7FFF7;
     display: grid;
     grid-template-columns: max-content 1fr;
 }
 #legend {
-    background-color: #F7FFF7;
+    color:#F7FFF7;
+    background-color: #343434;
     padding: 10px;
     border-radius: 2vh;
     width: max-content;
@@ -49,6 +50,9 @@ body {
     background-color: red;
     color: #F7FFF7;
 }
+.seatPopup button:hover {
+    background-color: rgb(170, 0, 0);
+}
 
 
 
@@ -69,8 +73,8 @@ body {
     background-color: rgb(36, 195, 0);;
     fill: rgb(36, 195, 0);
 }
-.class1:hover {
-    background-color: rgb(20, 107, 0);
+.class1_hover {
+    fill: rgb(27, 148, 0);
 }
 .class2 {
     background-color: rgb(0, 81, 255);
@@ -79,6 +83,9 @@ body {
 .class3 {
     background-color: rgb(232, 170, 0);
     fill: rgb(232, 170, 0);
+}
+.class3_hover {
+    fill: rgb(167, 122, 0);
 }
 .class4 {
     background-color: rgb(0, 117, 0);

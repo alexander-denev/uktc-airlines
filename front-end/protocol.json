@@ -1,0 +1,51 @@
+{
+    "seats": [
+        {
+            "type": "First",
+            "visualisation": "[an SVG]",
+            "occurrences": [
+            {"x": 15, "y": 25, "row": "A", "column": 1},
+            {"x": 35, "y": 45, "row": "A", "column": 2},
+            {"x": 55, "y": 65, "row": "B", "column": 1},
+            {"x": 75, "y": 85, "row": "B", "column": 2},
+            {"x": 95, "y": 105, "row": "C", "column": 1}
+            ]
+        },
+        {
+            "type": "Economy",
+            "visualisation": "[an SVG]",
+            "occurrences": [
+            {"x": 75, "y": 85, "row": "D", "column": 1},
+            {"x": 95, "y": 105, "row": "D", "column": 2},
+            {"x": 115, "y": 125, "row": "E", "column": 1},
+            {"x": 135, "y": 145, "row": "E", "column": 2},
+            {"x": 155, "y": 165, "row": "F", "column": 1}
+            ]
+        }
+    ],
+    "facilities": [
+        {
+            "type": "Bathroom",
+            "visualisation": "[an SVG]",
+            "occurrences": [
+                {"x": 215, "y": 235},
+                {"x": 250, "y": 90}
+            ]
+        },
+        {
+            "type": "Galley",
+            "visualisation": "[an SVG]",
+            "occurrences": [
+                {"x": 215, "y": 235},
+                {"x": 250, "y": 90}
+            ]
+        }
+    ],
+    "airplane": {
+        "name": "Airbus A320",
+        "visualisation": {
+            "1": "an SVG",
+            "2": "an SVG"
+        }
+    }
+}
