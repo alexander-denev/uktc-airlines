@@ -3,34 +3,31 @@ package com.dbteam.avio.dto;
 import com.dbteam.avio.entities.Plane;
 
 public class PlaneDTO {
-    private Long id;
-    private String model;
+    private String name;
+    private String visualisation;
+
 
     public PlaneDTO() {
     }
 
-    public PlaneDTO(Long id, String model) {
-        this.id = id;
-        this.model = model;
+    public PlaneDTO(Plane plane) {
+        this.name = plane.getModel().getName();
+        this.visualisation = plane.getSvg();
     }
 
-    public Long getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getModel() {
-        return model;
+    public String getVisualisation() {
+        return visualisation;
     }
 
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public static PlaneDTO toPlaneDTO(Plane plane){
-        return new PlaneDTO(plane.getId(), plane.getModel().getName());
+    public void setVisualisation(String visualisation) {
+        this.visualisation = visualisation;
     }
 }

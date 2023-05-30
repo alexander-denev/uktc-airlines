@@ -13,6 +13,9 @@ public class Plane {
     @JoinColumn(name = "model")
     private Model model;
 
+    @Column(columnDefinition = "LONGTEXT")
+    private String svg;
+
     public Plane(Long id, Model model_id) {
         this.id = id;
         this.model = model_id;
@@ -35,5 +38,13 @@ public class Plane {
 
     public void setModel(Model model) {
         this.model = model;
+    }
+
+    public String getSvg() {
+        return svg;
+    }
+
+    public void setSvg(String svg) {
+        this.svg = svg;
     }
 }

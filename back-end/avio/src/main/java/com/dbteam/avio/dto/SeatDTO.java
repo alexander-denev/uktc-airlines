@@ -3,32 +3,29 @@ package com.dbteam.avio.dto;
 import com.dbteam.avio.entities.Seat;
 
 public class SeatDTO {
+    private int x;
+    private int y;
+    private double rotation;
     private int row;
-    private char col;
-
-    private PointDTO offset;
+    private char column;
     private int floor;
-    private Long seatClass;
 
-    public SeatDTO(int row, char col,
-                   PointDTO offset, int floor,
-                   Long seatClass) {
+    public SeatDTO(int x, int y, double rotation, int row, char col, int floor) {
+        this.x = x;
+        this.y = y;
+        this.rotation = rotation;
         this.row = row;
-        this.col = col;
-
-        this.offset = offset;
+        this.column = col;
         this.floor = floor;
-        this.seatClass = seatClass;
     }
 
-    public static SeatDTO toSeatDto(Seat seat){
-        return new SeatDTO(
-                seat.getId().getRow(),
-                seat.getId().getColumn(),
-                PointDTO.toPointDTO(seat.getOffset()),
-                seat.getFloor(),
-                seat.getSeatClass().getId()
-                );
+    public SeatDTO(Seat seat){
+        this.x = (int) seat.getOffset().getX();
+        this.y = (int) seat.getOffset().getY();
+        this.rotation = seat.getRotation();
+        this.row = seat.getId().getRow();
+        this.column = seat.getId().getColumn();
+        this.floor = seat.getFloor();
     }
 
     public SeatDTO() {
@@ -42,20 +39,36 @@ public class SeatDTO {
         this.row = row;
     }
 
-    public char getCol() {
-        return col;
+    public char getColumn() {
+        return column;
     }
 
-    public void setCol(char col) {
-        this.col = col;
+    public void setColumn(char column) {
+        this.column = column;
     }
 
-    public PointDTO getOffset() {
-        return offset;
+    public int getX() {
+        return x;
     }
 
-    public void setOffset(PointDTO offset) {
-        this.offset = offset;
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public double getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(double rotation) {
+        this.rotation = rotation;
     }
 
     public int getFloor() {
@@ -65,14 +78,4 @@ public class SeatDTO {
     public void setFloor(int floor) {
         this.floor = floor;
     }
-
-    public Long getSeatClass() {
-        return seatClass;
-    }
-
-    public void setSeatClass(Long seatClass) {
-        this.seatClass = seatClass;
-    }
-
-
 }

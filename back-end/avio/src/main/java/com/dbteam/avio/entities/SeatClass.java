@@ -14,8 +14,9 @@ public class SeatClass {
     private Long id;
     @Column(name = "name")
     private String name;
-    @Column(columnDefinition = "POLYGON")
-    private Polygon geometry;
+    @Column(columnDefinition = "LONGTEXT")
+    private String svg;
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -32,11 +33,11 @@ public class SeatClass {
         this.name = seatClass;
     }
 
-    public Polygon getGeometry() {
-        return geometry;
+    public String getSvg() {
+        return svg;
     }
 
-    public void setGeometry(Polygon geometry) {
-        this.geometry = geometry;
+    public void setSvg(String svg) {
+        this.svg = svg;
     }
 }

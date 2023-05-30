@@ -2,57 +2,51 @@ package com.dbteam.avio.dto;
 
 
 import com.dbteam.avio.entities.SeatClass;
-import org.locationtech.jts.geom.*;
+import com.dbteam.avio.entities.Seat;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SeatClassDTO {
-    private Long id;
-    private String name;
-    private PolygonDTO geometry;
+    private String type;
+    private String visualisation;
+    public List<SeatDTO> occurrences;
 
-    public SeatClassDTO() {
-    }
-
-    public SeatClassDTO(Long id, String name, Polygon geometry) {
-        this.id = id;
-        this.name = name;
-        this.geometry = PolygonDTO.toPolygonDTO(geometry);
-    }
-
-    public static SeatClassDTO toSeatClassDto(SeatClass seatClass){
-        return new SeatClassDTO(
-                seatClass.getId(),
-                seatClass.getName(),
-                seatClass.getGeometry()
-                );
+    public SeatClassDTO(SeatClass seatClass, List<Seat> seats){
+        this.type = seatClass.getName();
+        this.visualisation = seatClass.getSvg();
+        this.occurrences = new ArrayList<>();
+        for (Seat s:
+             seats) {
+            this.occurrences.add(new SeatDTO(s));
+        }
     }
 
     // Getters and setters
 
-    public Long getId() {
-        return id;
+
+    public String getType() {
+        return type;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getName() {
-        return name;
+    public String getVisualisation() {
+        return visualisation;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setVisualisation(String visualisation) {
+        this.visualisation = visualisation;
     }
 
-    public PolygonDTO getGeometry() {
-        return geometry;
+    public List<SeatDTO> getOccurrences() {
+        return occurrences;
     }
 
-    public void setGeometry(PolygonDTO geometry) {
-        this.geometry = geometry;
+    public void setOccurrences(List<SeatDTO> occurrences) {
+        this.occurrences = occurrences;
     }
-
 }
