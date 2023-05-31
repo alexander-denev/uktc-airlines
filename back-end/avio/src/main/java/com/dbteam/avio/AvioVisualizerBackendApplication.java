@@ -6,6 +6,7 @@ import com.dbteam.avio.entities.*;
 import com.dbteam.avio.repositories.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,6 +37,7 @@ public class AvioVisualizerBackendApplication {
                    PlaneDTO airplane){}
 
 
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
     @GetMapping("/mapData/{planeId}")
     public MapData getJson(@PathVariable Long planeId) {
         Plane plane = planeRepo.findById(planeId).orElse(null);
