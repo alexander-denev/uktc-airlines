@@ -9,10 +9,10 @@ const data = { // Бих искал полигона на седалките в�
     {
         "class": "First Class",
         "polygon": [
-        {"x": 0, "y": 0},
-        {"x": 50, "y": 0},
-        {"x": 50, "y": 50},
-        {"x": 0, "y": 50}
+            {"x": 0, "y": 0},
+            {"x": 50, "y": 0},
+            {"x": 50, "y": 50},
+            {"x": 0, "y": 50}
         ],
         "occurrences": [
         {"x": 15, "y": 25, "row": "A", "column": 1},
@@ -154,6 +154,8 @@ data['seats'].forEach(clas => {
 
         poly.setAttribute('class', `class${htmlSeatClass} clickable`);
         poly.addEventListener('click', () => seatClick(seat, polyCenter));
+        poly.addEventListener('mouseenter', () => poly.classList.add(`class${htmlSeatClass}_hover`));
+        poly.addEventListener('mouseleave', () => poly.classList.remove(`class${htmlSeatClass}_hover`));
  
         planeSvg.appendChild(poly);
 
@@ -162,6 +164,8 @@ data['seats'].forEach(clas => {
         text.setAttribute('class', `clickable`);
         text.setAttribute('dominant-baseline', 'middle');
         text.addEventListener('click', () => seatClick(seat, polyCenter));
+        text.addEventListener('mouseenter', () => poly.classList.add(`class${htmlSeatClass}_hover`));
+        text.addEventListener('mouseleave', () => poly.classList.remove(`class${htmlSeatClass}_hover`));
         
         planeSvg.appendChild(text);
         
@@ -170,13 +174,9 @@ data['seats'].forEach(clas => {
             text.setAttribute('x', polyCenter[0] - (bbox.width / 2));
             text.setAttribute('y', polyCenter[1]);
         }, 0);
+    });
+});
 
-    })
 
-    
-        
-        
-
-    })
 
 planeDiv.appendChild(planeSvg);
