@@ -2,7 +2,8 @@
 tSvgText = () => document.createElementNS('http://www.w3.org/2000/svg', 'text');
 
                     // Fetch
-fetch(`http://192.168.137.78:8080/mapData/${new URLSearchParams(window.location.search).get("id")}`)
+// fetch(`http://localhost:8080/mapData/${new URLSearchParams(window.location.search).get("id")}`)
+fetch(`http://localhost:8080/mapData/${1}`)
     .then(response => response.json())
     .then(data => {
         document.getElementById("loading").remove();
