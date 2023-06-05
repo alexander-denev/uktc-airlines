@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UKTC Airlines ✈ Airplanes</title>
+    <link rel="icon" href="https://uktc-bg.com/uktc-content/themes/uktc-wp/images/logo.png">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    
+    <style>
+        dialog::backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        dialog{
+            border: none;
+            background: none;
+            overflow: hidden;
+        }
+        #loading {
+            border: 1vw solid white;
+            border-top: 1vw solid #3498db;
+            border-radius: 50%;
+            width: 5vw;
+            height: 5vw;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        tbody tr {
+            cursor: pointer;
+        }
+        tbody tr:hover {
+            filter: brightness(90%);
+        }
+        tbody tr:active {
+            filter: brightness(80%);
+        }
+    </style>
+    
+</head>
+<body>
+
+    <dialog>
+        <div id="loading"></div>
+    </dialog>
+    <script>
+        window.onload = () => {
+            let dialog = document.getElementsByTagName("dialog")[0];
+            dialog.showModal()
+            dialog.blur();
+        }
+    </script>
+    
+    <div class="container mt-5">
+        <div style="display: grid; grid-template-columns: max-content auto max-content;">
+            <h1 id="theTitle">Airplanes</h1>
+            <a href="../" style="grid-column: 3; align-self: center;">
+                <button type="button" class="btn btn-outline-danger">Back</button>
+            </a>
+        </div>
+  
+        <input class="form-control" id="theSearchBar" type="text" placeholder="Search...">
+  
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Airplane</th>
+                </tr>
+            </thead>
+            <tbody id="theTableBody">
+                <!-- Table is filled using JS -->
+            </tbody>
+        </table>
+  
+    </div>
+  
+    <script>
+
+        /*fetch(`http://127.0.0.1:8080/planesData`) // Fetch the airplanes
+        .then(response => response.json())
+        .then(data => {
+            render(data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById("theTitle").innerHTML = `Error: ${error}`;
+        });*/
+        
+        fetch(`protocol.json`) // Fetch the airplanes
+        .then(response => response.json())
+        .then(data => {
+            setTimeout(() => {
+                render(data);
+            }, 50);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById("theTitle").innerHTML = `Error: ${error}`;
+        });
+
+
+        function render(data) // Show the airplanes to the user
+        {
+            document.getElementsByTagName("dialog")[0].close();
+            
+            let theTableBody = document.getElementById("theTableBody");
+            data.planes.forEach(plane => {
+                let tr = document.createElement("tr");
+                let id = document.createElement("th");
+                let model = document.createElement("td");
+                
+                id.innerText = plane.id;
+                model.innerText = plane.model;
+                tr.addEventListener("click", () => window.location.href = `render/?id=${plane.id}`);
+                
+                tr.appendChild(id);
+                tr.appendChild(model);
+                theTableBody.appendChild(tr);
+            });
+
+            document.getElementById('theSearchBar').addEventListener('keyup', function () {
+                let filter = this.value.toLowerCase();
+                let rows = document.getElementById('theTableBody').getElementsByTagName('tr');
+                for (let i = 0; i < rows.length; i++) {
+                    let rowName = rows[i].getElementsByTagName('td')[0];
+                    let rowId = rows[i].getElementsByTagName('th')[0];
+
+                    let rowNameText = rowName.textContent || rowName.innerText;
+                    let rowIdText = rowId.textContent || rowId.innerText;
+                    
+                    rows[i].style.display = "none";
+                    if (rowNameText.toLowerCase().indexOf(filter) > -1) {
+                        rows[i].style.display = "";
+                    }else if (rowIdText.toLowerCase().indexOf(filter) > -1) {
+                        rows[i].style.display = "";
+                    }
+                    
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</body>
+</html>

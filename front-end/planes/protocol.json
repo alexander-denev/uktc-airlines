@@ -1,0 +1,6 @@
+{
+    "planes": [
+        {"id": 1, "model": "Airbus 320"},
+        {"id": 2, "model": "Boeng 737"}
+    ]
+}
