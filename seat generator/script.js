@@ -2,7 +2,8 @@ const classDef = {
   "Economy Class": [14, 17, 18, 19]
 };
 
-let planeModel = "Airbus A320"
+let ip = "https://d132-213-91-141-1.eu.ngrok.io";
+let planeModel = "Airbus A320";
 let floor = 1;
 let rotation = 0;
 
@@ -77,8 +78,6 @@ fetch('inputSeats.svg')
       columnCounter += 1;
     });
 
-    console.log(output);
-
     fetch('inputSeats.svg')
     .then(response => response.text())
     .then(planeData => {
@@ -86,17 +85,18 @@ fetch('inputSeats.svg')
       let button = document.createElement("button");
       button.textContent = "POST";
 
-      button.addEventListener("click", () => thePost(button, output, planeData, planeModel));
+      button.addEventListener("click", () => thePost(ip, button, output, planeData, planeModel));
       document.body.innerHTML = "";
       document.body.appendChild(button);
     });
 });
 
-async function thePost(self, seats, planeSvg, planeModel){
-  
+async function thePost(ip, self, seats, planeSvg, planeModel){
+
   self.remove();
 
-  fetch("output.txt", {
+  fetch(`${ip}/createPlane`, {
+    mode: "no-cors",
     method: "POST",
     body: JSON.stringify({
       "seats": seats,
@@ -106,8 +106,8 @@ async function thePost(self, seats, planeSvg, planeModel){
     headers: {
       "Content-type": "application/json; charset=UTF-8"
     }
-  })
-    .then(response => response.json())
-    .then(json => console.log(json));
+  });
+    /*.then(response => response.json())
+    .then(json => console.log(json));*/
 }
 
