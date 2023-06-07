@@ -1,7 +1,17 @@
 package com.dbteam.avio.dto;
 
+import com.dbteam.avio.entities.Plane;
 import com.dbteam.avio.entities.Seat;
+import com.dbteam.avio.entities.SeatClass;
+import com.dbteam.avio.entities.SeatPrimaryKey;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
 
+@Data
+@NoArgsConstructor
 public class SeatDTO {
     private int x;
     private int y;
@@ -10,72 +20,34 @@ public class SeatDTO {
     private char column;
     private int floor;
 
-    public SeatDTO(int x, int y, double rotation, int row, char col, int floor) {
-        this.x = x;
-        this.y = y;
-        this.rotation = rotation;
-        this.row = row;
-        this.column = col;
-        this.floor = floor;
-    }
 
-    public SeatDTO(Seat seat){
+    public SeatDTO(Seat seat) {
         this.x = (int) seat.getOffset().getX();
         this.y = (int) seat.getOffset().getY();
         this.rotation = seat.getRotation();
         this.row = seat.getId().getRow();
-        this.column = seat.getId().getColumn();
+        this.column = seat.getId().getCol();
         this.floor = seat.getFloor();
     }
 
-    public SeatDTO() {
-    }
+    public Seat convertToSeat(Plane plane, SeatClass seatClass) {
+        SeatPrimaryKey primaryKey = new SeatPrimaryKey();
+        primaryKey.setRow(this.row);
+        primaryKey.setCol(this.column);
+        primaryKey.setPlane_id(plane.getId());
 
-    public int getRow() {
-        return row;
-    }
+        Coordinate coordinate = new Coordinate(this.x, this.y);
+        GeometryFactory geometryFactory = new GeometryFactory();
+        Point offset = geometryFactory.createPoint(coordinate);
 
-    public void setRow(int row) {
-        this.row = row;
-    }
+        Seat seat = new Seat();
+        seat.setId(primaryKey);
+        seat.setOffset(offset);
+        seat.setFloor(this.floor);
+        seat.setRotation(this.rotation);
+        seat.setPlane(plane);
+        seat.setSeatClass(seatClass);
 
-    public char getColumn() {
-        return column;
-    }
-
-    public void setColumn(char column) {
-        this.column = column;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public double getRotation() {
-        return rotation;
-    }
-
-    public void setRotation(double rotation) {
-        this.rotation = rotation;
-    }
-
-    public int getFloor() {
-        return floor;
-    }
-
-    public void setFloor(int floor) {
-        this.floor = floor;
+        return seat;
     }
 }

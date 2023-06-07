@@ -1,9 +1,13 @@
 package com.dbteam.avio.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table
+@Getter
+@Setter
 public class Plane {
     @Id
     @GeneratedValue
@@ -22,29 +26,5 @@ public class Plane {
     }
 
     public Plane() {
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Model getModel() {
-        return model;
-    }
-
-    public void setModel(Model model) {
-        this.model = model;
-    }
-
-    public String getSvg() {
-        return svg;
-    }
-
-    public void setSvg(String svg) {
-        this.svg = svg;
     }
 }
