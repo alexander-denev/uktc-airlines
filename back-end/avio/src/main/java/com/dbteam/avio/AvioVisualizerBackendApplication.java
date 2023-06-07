@@ -1,6 +1,7 @@
 package com.dbteam.avio;
 
 import com.dbteam.avio.dto.PlaneDTO;
+import com.dbteam.avio.dto.PlaneSlimDTO;
 import com.dbteam.avio.dto.SeatClassDTO;
 import com.dbteam.avio.entities.*;
 import com.dbteam.avio.repositories.*;
@@ -50,6 +51,15 @@ public class AvioVisualizerBackendApplication {
         }
 
         return new MapData(seats, new PlaneDTO(plane));
+    }
+
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
+    @GetMapping("/planeData")
+    public List<PlaneSlimDTO> getPlanes(){
+        List<Plane> planes = planeRepo.findAll();
+        List<PlaneSlimDTO> dtos = new ArrayList<>();
+        planes.forEach(p -> dtos.add(new PlaneSlimDTO(p)));
+        return dtos;
     }
 
 }
