@@ -1,12 +1,16 @@
 package com.dbteam.avio.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.locationtech.jts.geom.Polygon;
 
 import java.util.List;
 
 @Entity
 @Table(name = "class")
+@Getter
+@Setter
 public class SeatClass {
 
     @Id
@@ -16,28 +20,4 @@ public class SeatClass {
     private String name;
     @Column(columnDefinition = "LONGTEXT")
     private String svg;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String seatClass) {
-        this.name = seatClass;
-    }
-
-    public String getSvg() {
-        return svg;
-    }
-
-    public void setSvg(String svg) {
-        this.svg = svg;
-    }
 }

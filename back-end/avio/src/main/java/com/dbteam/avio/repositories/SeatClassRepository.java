@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface SeatClassRepository extends CrudRepository<SeatClass, Long> {
@@ -16,5 +17,7 @@ public interface SeatClassRepository extends CrudRepository<SeatClass, Long> {
             "JOIN Plane p ON s.plane.id = p.id " +
             "WHERE p = :plane")
     List<SeatClass> findAllByPlane(@Param("plane") Plane plane);
+
+    Optional<SeatClass> findByName(String name);
 
 }
