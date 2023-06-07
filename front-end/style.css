@@ -77,8 +77,14 @@
   border-radius: 4px;
   background-color: var(--dl-color-gray-white);
 }
-.clickable {
+.clickable{
   cursor: pointer;
+} 
+.clickable:hover {
+  filter: brightness(85%);
+}
+.clickable:active {
+  filter: brightness(70%);
 }
 .Healine {
   font-size: 1.875rem;

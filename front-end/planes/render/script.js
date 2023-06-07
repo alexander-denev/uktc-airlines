@@ -107,7 +107,7 @@ function render(data)
             seatText.setAttribute("y", "60%");
             seatText.setAttribute("text-anchor", "middle");
             seatText.setAttribute("dominant-baseline", "middle");
-            seatText.setAttribute("font-size", "150");
+            seatText.setAttribute("font-size", "120");
             seatText.innerHTML = `${seat['column'].toUpperCase()}${seat['row']}`;
     
             seatForPlacement.appendChild(seatText);
