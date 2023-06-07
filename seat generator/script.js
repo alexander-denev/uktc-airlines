@@ -2,10 +2,10 @@ const classDef = {
   "Economy Class": [14, 17, 18, 19]
 };
 
-let ip = "https://d132-213-91-141-1.eu.ngrok.io";
-let planeModel = "Airbus A320";
-let floor = 1;
-let rotation = 0;
+const ip = "127.0.0.1";
+const planeModel = "Airbus A320";
+const floor = 1;
+const rotation = 0;
 
 fetch('inputSeats.svg')
   .then(response => response.text())
