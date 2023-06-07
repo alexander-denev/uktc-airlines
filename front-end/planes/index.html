@@ -82,17 +82,18 @@
   
     <script>
 
-        /*fetch(`http://127.0.0.1:8080/planesData`) // Fetch the airplanes
+        fetch(`http://127.0.0.1:8080/planeData`) // Fetch the airplanes
         .then(response => response.json())
         .then(data => {
+            console.log(data);
             render(data);
         })
         .catch(error => {
             console.error('Error:', error);
             document.getElementById("theTitle").innerHTML = `Error: ${error}`;
-        });*/
+        });
         
-        fetch(`protocol.json`) // Fetch the airplanes
+        /* fetch(`protocol.json`) // Fetch the airplanes
         .then(response => response.json())
         .then(data => {
             setTimeout(() => {
@@ -102,7 +103,7 @@
         .catch(error => {
             console.error('Error:', error);
             document.getElementById("theTitle").innerHTML = `Error: ${error}`;
-        });
+        }); */
 
 
         function render(data) // Show the airplanes to the user
@@ -110,7 +111,7 @@
             document.getElementsByTagName("dialog")[0].close();
             
             let theTableBody = document.getElementById("theTableBody");
-            data.planes.forEach(plane => {
+            data.forEach(plane => {
                 let tr = document.createElement("tr");
                 let id = document.createElement("th");
                 let model = document.createElement("td");
