@@ -11,6 +11,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class SeatPrimaryKey implements Serializable {
+    @Column(name = "`row`")
     private int row;
     private char col;
     @Column(name = "plane_id")

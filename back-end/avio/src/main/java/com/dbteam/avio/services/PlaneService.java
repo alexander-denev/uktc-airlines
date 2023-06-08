@@ -25,8 +25,11 @@ public class PlaneService {
     }
 
     public void savePlane(Plane plane){
-        if(!modelRepository.exists(Example.of(plane.getModel()))){
+        if(!modelRepository.existsByName(plane.getModel().getName())){
             modelRepository.save(plane.getModel());
+        }else{
+            String name = plane.getModel().getName();
+            plane.setModel(modelRepository.findByName(name));
         }
         planeRepository.save(plane);
     }

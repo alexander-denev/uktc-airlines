@@ -2,7 +2,7 @@ const classDef = {
   "Economy Class": [14, 17, 18, 19]
 };
 
-const ip = "127.0.0.1";
+const ip = "http://127.0.0.1:8080";
 const planeModel = "Airbus A320";
 const floor = 1;
 const rotation = 0;
@@ -95,17 +95,22 @@ async function thePost(ip, self, seats, planeSvg, planeModel){
 
   self.remove();
 
+  console.log(JSON.stringify({
+    "seats": seats,
+    "planeVisualisation": planeSvg,
+    "planeName": planeModel
+  }))
+
   fetch(`${ip}/createPlane`, {
-    mode: "no-cors",
     method: "POST",
+    headers: {
+      'Content-Type': 'application/json'
+    },
     body: JSON.stringify({
       "seats": seats,
       "planeVisualisation": planeSvg,
       "planeName": planeModel
-    }),
-    headers: {
-      "Content-type": "application/json; charset=UTF-8"
-    }
+    })
   });
     /*.then(response => response.json())
     .then(json => console.log(json));*/

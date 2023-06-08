@@ -14,6 +14,9 @@ import com.dbteam.avio.services.SeatService;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -32,12 +35,12 @@ public class AvioVisualizerBackendApplication {
         SpringApplication.run(AvioVisualizerBackendApplication.class, args);
     }
 
+
     record MapData(List<SeatClassDTO> seats,
                    PlaneDTO airplane) {
     }
 
 
-    @CrossOrigin(origins = "http://127.0.0.1:5500")
     @GetMapping("/mapData/{planeId}")
     public MapData getJson(@PathVariable Long planeId) {
         Plane plane = planeService.findById(planeId);
@@ -52,7 +55,6 @@ public class AvioVisualizerBackendApplication {
         return new MapData(seats, new PlaneDTO(plane));
     }
 
-    @CrossOrigin(origins = "http://127.0.0.1:5500")
     @GetMapping("/planeData")
     public List<PlaneSlimDTO> getPlanes() {
         List<Plane> planes = planeService.findAll();
@@ -61,20 +63,29 @@ public class AvioVisualizerBackendApplication {
         return dtos;
     }
 
+    record createPlaneRecord(
+            ArrayList<SeatSaveDTO> seats,
+            String planeVisualisation,
+            String planeName
+    ) {
+    }
+
     @PostMapping("/createPlane")
-    public void addSeats(List<SeatSaveDTO> seats, String planeVisualisation, String planeName) {
-        Model model = new Model(planeName);
+    public ResponseEntity<Void> addSeats(@RequestBody createPlaneRecord record) {
+
+        Model model = new Model(record.planeName);
 
         Plane plane = new Plane();
         plane.setModel(model);
-        plane.setSvg(planeVisualisation);
-
+        plane.setSvg(record.planeVisualisation);
         planeService.savePlane(plane);
 
-        for (SeatSaveDTO saveDTO : seats) {
-            SeatClass seatClass = classService.getSeatClassByName(saveDTO.getSeatClassName());
+        for (SeatSaveDTO saveDTO : record.seats) {
+            SeatClass seatClass = classService.getSeatClassByName(saveDTO.getSeatClass());
             Seat seat = saveDTO.convertToSeat(plane, seatClass);
             seatService.save(seat);
         }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
