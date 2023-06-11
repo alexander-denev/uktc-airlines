@@ -2,7 +2,9 @@
 tSvgText = () => document.createElementNS('http://www.w3.org/2000/svg', 'text');
 
                     // Fetch
-fetch(`http://127.0.0.1:8080/mapData/${new URLSearchParams(window.location.search).get("id")}`)
+// fetch(`http://127.0.0.1:8080/mapData/${new URLSearchParams(window.location.search).get("id")}`)
+fetch(`http://127.0.0.1:8080/mapData/${9}`)
+
     .then(response => response.json())
     .then(data => {
         document.getElementsByTagName("dialog")[0].close();
@@ -74,19 +76,19 @@ function render(data)
 {
     let parser = new DOMParser();
     
-    let legend = document.getElementById('legend');
-    data.seats.forEach(clas => {
-        let className = document.createElement('div');
-        className.innerHTML = "&nbsp" + clas.type;
+    // let legend = document.getElementById('legend');
+    // data.seats.forEach(clas => {
+    //     let className = document.createElement('div');
+    //     className.innerHTML = "&nbsp" + clas.type;
         
-        let colorbox = document.createElement('div');
-        colorbox.style.backgroundColor = parser.parseFromString(clas['visualisation'], "image/svg+xml").documentElement.getElementById('color_identifier').style.fill; 
-        colorbox.style.height = "1.2em";
-        colorbox.style.width = "1em";
+    //     let colorbox = document.createElement('div');
+    //     colorbox.style.backgroundColor = parser.parseFromString(clas['visualisation'], "image/svg+xml").documentElement.getElementById('color_identifier').style.fill; 
+    //     colorbox.style.height = "1.2em";
+    //     colorbox.style.width = "1em";
     
-        legend.appendChild(colorbox);
-        legend.appendChild(className);
-    });
+    //     legend.appendChild(colorbox);
+    //     legend.appendChild(className);
+    // });
     
     let planeDiv = document.getElementById('planeDiv');
     let planeSvg = parser.parseFromString(data.airplane.visualisation, "image/svg+xml").documentElement;

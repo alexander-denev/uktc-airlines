@@ -1,5 +1,6 @@
 const classDef = {
-  "Economy Class": [14, 17, 18, 19]
+  "Economy Class": [0],
+  "Premium Economy Class": [2]
 };
 
 const ip = "http://127.0.0.1:8080";
@@ -7,7 +8,7 @@ const planeModel = "Airbus A320";
 const floor = 1;
 const rotation = 0;
 
-fetch('inputSeats.svg')
+fetch('inputSeats_a330.svg')
   .then(response => response.text())
   .then(data => {
 
@@ -20,18 +21,25 @@ fetch('inputSeats.svg')
 
     // Get the coordinates of the seats from the svg
     let output = [];
+    let clas_heights = [];
     Array.from(theObj.children.seats.children).forEach(seat => {
         let seatBB = seat.getBBox();
 
         let clas = "default";
         for (let [key, value] of Object.entries(classDef)) {
-          if (value.includes(parseInt(seat.children[0].classList[0].match(/\d+/)[0]))) {
-            clas = key;
-          } else {
-            clas = "doesn't include"
+          if (value.includes( Array.from(seat.children).filter(child => child["nodeName"] == "g").length )) {
+            clas = key; 
+            
+            if(!clas_heights.find(element => element["seatClass"] == clas)){
+              clas_heights.push({
+                "seatClass": clas,
+                "height": Math.floor(seatBB.height)
+              })
+            }
+
           }
         }
-        
+
         output.push({
           "x": Math.floor(seatBB.x), 
           "y": Math.floor(seatBB.y), 
@@ -68,17 +76,19 @@ fetch('inputSeats.svg')
     let rows = [];
     let columnCounter = 0;
     output.forEach(seat => {
-      if (!rows.includes(seat.y)){
+      if (!rows.includes(seat.y) 
+      && clas_heights.find(element => element["seatClass"] == seat["seatClass"])["height"] < seat.y - rows[rows.length - 1]
+      || rows.length === 0){
         rows.push(seat.y);
         columnCounter = 0;
       }
 
-      output[output.indexOf(seat)].row = rows.indexOf(seat.y) + 1;
+      output[output.indexOf(seat)].row = rows.length;
       output[output.indexOf(seat)].column = String.fromCharCode(65 + columnCounter);
       columnCounter += 1;
     });
 
-    fetch('inputSeats.svg')
+    fetch('inputPlane_a330.svg')
     .then(response => response.text())
     .then(planeData => {
 
@@ -86,6 +96,8 @@ fetch('inputSeats.svg')
       button.textContent = "POST";
 
       button.addEventListener("click", () => thePost(ip, button, output, planeData, planeModel));
+      // button.addEventListener("click", () => console.log(output));
+
       document.body.innerHTML = "";
       document.body.appendChild(button);
     });
