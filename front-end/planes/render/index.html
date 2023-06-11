@@ -26,6 +26,15 @@
     <div id="backButton"><Button class="clickable"><---</Button></div>
     <script>document.querySelector("#backButton Button").addEventListener('click', () => window.location.href = '../')</script>
 
+    <div id="zoom"><input id="slider" type="range" min="20" max="100" step="1" value="50"></div>
+    <script>
+        document.getElementById("slider").addEventListener("input", () => {
+            Array.from(document.getElementsByClassName("planeSvg")).forEach(planesvg => {
+                planesvg.style.width = `${document.getElementById("slider").value}%`;
+            });
+        });
+    </script>
+    
     <div id="planeDiv"></div>
 
     <script src="script.js"></script>
