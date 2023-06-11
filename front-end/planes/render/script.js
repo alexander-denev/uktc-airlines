@@ -5,6 +5,7 @@ tSvgText = () => document.createElementNS('http://www.w3.org/2000/svg', 'text');
 fetch(`http://127.0.0.1:8080/mapData/${new URLSearchParams(window.location.search).get("id")}`)
     .then(response => response.json())
     .then(data => {
+        console.log(data);
         document.getElementsByTagName("dialog")[0].close();
         render(data);
         document.title = `UKTC Airlines ✈ ${data.airplane.name}`;

@@ -78,7 +78,7 @@ fetch('inputSeats.svg')
       columnCounter += 1;
     });
 
-    fetch('inputSeats.svg')
+    fetch('inputPlane.svg')
     .then(response => response.text())
     .then(planeData => {
 
@@ -112,7 +112,5 @@ async function thePost(ip, self, seats, planeSvg, planeModel){
       "planeName": planeModel
     })
   });
-    /*.then(response => response.json())
-    .then(json => console.log(json));*/
 }
 
