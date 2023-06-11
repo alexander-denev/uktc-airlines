@@ -124,7 +124,5 @@ async function thePost(ip, self, seats, planeSvg, planeModel){
       "planeName": planeModel
     })
   });
-    /*.then(response => response.json())
-    .then(json => console.log(json));*/
 }
 

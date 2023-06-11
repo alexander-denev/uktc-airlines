@@ -7,6 +7,7 @@ fetch(`http://127.0.0.1:8080/mapData/${9}`)
 
     .then(response => response.json())
     .then(data => {
+        console.log(data);
         document.getElementsByTagName("dialog")[0].close();
         render(data);
         document.title = `UKTC Airlines ✈ ${data.airplane.name}`;
