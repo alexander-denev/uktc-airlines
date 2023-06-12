@@ -1,5 +1,6 @@
                     // Templates
 tSvgText = () => document.createElementNS('http://www.w3.org/2000/svg', 'text');
+tSvgGroup = () => document.createElementNS('http://www.w3.org/2000/svg', 'g');
 
                     // Fetch
 fetch(`http://127.0.0.1:8080/mapData/${new URLSearchParams(window.location.search).get("id")}`)
@@ -92,18 +93,31 @@ function render(data)
     
     let planeDiv = document.getElementById('planeDiv');
     let planeSvg = parser.parseFromString(data.airplane.visualisation, "image/svg+xml").documentElement;
+    
     planeSvg.setAttribute('class','planeSvg');
     
     data['seats'].forEach(clas => {
     
         clas['occurrences'].forEach(seat => {
             let seatForPlacement = parser.parseFromString(clas['visualisation'], "image/svg+xml").documentElement;
+            let groupForPlacement = tSvgGroup();
+            
             seatForPlacement.setAttribute('x', seat['x']);
             seatForPlacement.setAttribute('y', seat['y']);
-    
+            
+            groupForPlacement.setAttribute("style", `transform: rotate(${seat.rotation}deg); transform-origin: ${seat.x}px ${seat.y}px`);
+            
+            // groupForPlacement.addEventListener("DOMContentLoaded", function() {
+            //     console.log("loaded");
+            //     let bb = groupForPlacement.getBoundingClientRect();
+            //     let centerX = seat.x + bb.width / 2;
+            //     let centerY = seat.y + bb.height / 2;
+            //     groupForPlacement.setAttribute("style", `transform-origin: ${centerX}px ${centerY}px`);
+            // });
+            
             seatForPlacement.setAttribute('class', `seat clickable`);
             seatForPlacement.addEventListener('click', () => seatClick(seat, seatForPlacement, clas));
-     
+            
             let seatText = tSvgText();
             seatText.setAttribute("x", "40%");
             seatText.setAttribute("y", "30%");
@@ -112,13 +126,13 @@ function render(data)
             seatText.setAttribute("dominant-baseline", "middle");
             seatText.setAttribute("font-size", "200");
             seatText.innerHTML = `${seat['column'].toUpperCase()}${seat['row']}`;
-    
+            
+            groupForPlacement.appendChild(seatForPlacement);
+            planeSvg.appendChild(groupForPlacement);
             seatForPlacement.appendChild(seatText);
-            planeSvg.appendChild(seatForPlacement);
         });
     });
     
-    
-    
     planeDiv.appendChild(planeSvg);
+    
 }
