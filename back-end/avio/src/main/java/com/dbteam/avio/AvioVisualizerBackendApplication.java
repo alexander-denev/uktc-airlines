@@ -14,7 +14,6 @@ import com.dbteam.avio.services.SeatService;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,12 +33,6 @@ public class AvioVisualizerBackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(AvioVisualizerBackendApplication.class, args);
     }
-
-
-    record MapData(List<SeatClassDTO> seats,
-                   PlaneDTO airplane) {
-    }
-
 
     @GetMapping("/mapData/{planeId}")
     public MapData getJson(@PathVariable Long planeId) {
@@ -63,13 +56,6 @@ public class AvioVisualizerBackendApplication {
         return dtos;
     }
 
-    record createPlaneRecord(
-            ArrayList<SeatSaveDTO> seats,
-            String planeVisualisation,
-            String planeName
-    ) {
-    }
-
     @PostMapping("/createPlane")
     public ResponseEntity<Void> addSeats(@RequestBody createPlaneRecord record) {
 
@@ -87,5 +73,16 @@ public class AvioVisualizerBackendApplication {
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    record MapData(List<SeatClassDTO> seats,
+                   PlaneDTO airplane) {
+    }
+
+    record createPlaneRecord(
+            ArrayList<SeatSaveDTO> seats,
+            String planeVisualisation,
+            String planeName
+    ) {
     }
 }

@@ -13,7 +13,7 @@ public class PlaneSlimDTO {
         this.model = model;
     }
 
-    public PlaneSlimDTO(Plane plane){
+    public PlaneSlimDTO(Plane plane) {
         this.id = plane.getId();
         this.model = plane.getModel().getName();
     }

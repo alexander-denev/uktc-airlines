@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SeatSaveDTO extends SeatDTO {
     private String seatClass;
+
     public SeatSaveDTO(Seat seat) {
         super(seat);
     }

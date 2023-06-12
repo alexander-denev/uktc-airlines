@@ -14,7 +14,7 @@ public class Plane {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "model")
+    @JoinColumn(name = "model_id")
     private Model model;
 
     @Column(columnDefinition = "LONGTEXT")

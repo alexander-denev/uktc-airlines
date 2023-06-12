@@ -1,18 +1,18 @@
 package com.dbteam.avio.dto;
 
 
-import com.dbteam.avio.entities.SeatClass;
 import com.dbteam.avio.entities.Seat;
+import com.dbteam.avio.entities.SeatClass;
 import lombok.Data;
-
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Data
 public class SeatClassDTO {
+    public List<SeatDTO> occurrences;
     private String type;
     private String visualisation;
-    public List<SeatDTO> occurrences;
 
     public SeatClassDTO(SeatClass seatClass, List<Seat> seats) {
         this.type = seatClass.getName();

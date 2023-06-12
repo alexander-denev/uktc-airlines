@@ -19,7 +19,6 @@ public class SeatClass {
     private String svg;
 
 
-
     public SeatClass() {
     }
 }
