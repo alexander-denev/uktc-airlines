@@ -1,16 +1,31 @@
-const classDef = {
-  "Economy Class": [0],
-  "Premium Economy Class": [2]
-};
+const classDef = ["Business Class", "Premium Economy Class", "Economy Class"];
+const planeModel = "Airbus A737";
 
 const ip = "http://127.0.0.1:8080";
-const planeModel = "Airbus A320";
 const floor = 1;
 const rotation = 0;
 
-fetch('inputSeats_a330.svg')
+let button = document.createElement("button"); // POST button
+button.textContent = "POST";
+
+button.addEventListener("click", () => {
+
+  fetch(document.getElementById("input").value) // Fetch 
   .then(response => response.text())
-  .then(data => {
+  .then(response => {
+    
+    console.log(theSeatsParse(response));
+    console.log(thePlaneParse(response));
+
+  
+  });
+});
+
+document.body.appendChild(button);
+
+
+
+function theSeatsParse(data){
 
     // Parse the airplane svg
     let parser = new DOMParser();
@@ -19,14 +34,19 @@ fetch('inputSeats_a330.svg')
     // Append svg to DOM for processing
     document.body.appendChild(theObj);
 
+    // Remove undeeded elements
+    theObj.power.remove();
+    theObj.numbers.remove();
+
     // Get the coordinates of the seats from the svg
     let output = [];
-    let clas_heights = [];
+    let clas_heights = [{"seatClass":"default", "height": 0}];
     Array.from(theObj.children.seats.children).forEach(seat => {
         let seatBB = seat.getBBox();
 
         let clas = "default";
         for (let [key, value] of Object.entries(classDef)) {
+          console.log(seat,Array.from(seat.children).filter(child => child["nodeName"] == "g").length);
           if (value.includes( Array.from(seat.children).filter(child => child["nodeName"] == "g").length )) {
             clas = key; 
             
@@ -88,35 +108,30 @@ fetch('inputSeats_a330.svg')
       columnCounter += 1;
     });
 
-    fetch('inputPlane_a330.svg')
-    .then(response => response.text())
-    .then(planeData => {
 
-      let button = document.createElement("button"); // POST button
-      button.textContent = "POST";
 
-      button.addEventListener("click", () => thePost(ip, button, output, planeData, planeModel));
+    return output;
+};
 
-      theObj.remove();
-      document.body.appendChild(button);
-    });
-});
+function thePlaneParse(data) {
 
-async function thePost(ip, self, seats, planeSvg, planeModel){ // Post method
+}
+
+function thePost(ip, self, seats, planeSvg, planeModel){ // Post method
 
   self.remove();
 
-  fetch(`${ip}/createPlane`, {
-    method: "POST",
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      "seats": seats,
-      "planeVisualisation": planeSvg,
-      "planeName": planeModel
-    })
-  });
+  // fetch(`${ip}/createPlane`, {
+  //   method: "POST",
+  //   headers: {
+  //     'Content-Type': 'application/json'
+  //   },
+  //   body: JSON.stringify({
+  //     "seats": seats,
+  //     "planeVisualisation": planeSvg,
+  //     "planeName": planeModel
+  //   })
+  // });
 
 }
 

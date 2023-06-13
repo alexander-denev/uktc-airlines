@@ -4,7 +4,6 @@ tSvgGroup = () => document.createElementNS('http://www.w3.org/2000/svg', 'g');
 
                     // Fetch
 fetch(`http://127.0.0.1:8080/mapData/${new URLSearchParams(window.location.search).get("id")}`)
-//fetch(`http://127.0.0.1:8080/mapData/${9}`)
 
     .then(response => response.json())
     .then(data => {
