@@ -104,8 +104,10 @@ function render(data)
             
             seatForPlacement.setAttribute('x', seat['x']);
             seatForPlacement.setAttribute('y', seat['y']);
-            
-            groupForPlacement.setAttribute("style", `transform: rotate(${seat.rotation}deg); transform-origin: ${seat.x}px ${seat.y}px`);
+
+            let centerX = seat.x + (parseInt(seatForPlacement.getAttribute("width")) /2);
+            let centerY = seat.y + (parseInt(seatForPlacement.getAttribute("height")) /2);
+            groupForPlacement.setAttribute("style", `transform: rotate(${seat.rotation}deg); transform-origin: ${centerX}px ${centerY}px`);
             
             // groupForPlacement.addEventListener("DOMContentLoaded", function() {
             //     console.log("loaded");

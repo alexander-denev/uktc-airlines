@@ -92,37 +92,35 @@ fetch('inputSeats_a330.svg')
     .then(response => response.text())
     .then(planeData => {
 
-      let button = document.createElement("button");
+      let button = document.createElement("button"); // POST button
       button.textContent = "POST";
 
       button.addEventListener("click", () => thePost(ip, button, output, planeData, planeModel));
-      // button.addEventListener("click", () => console.log(output));
 
       document.body.innerHTML = "";
       document.body.appendChild(button);
     });
 });
 
-async function thePost(ip, self, seats, planeSvg, planeModel){
+async function thePost(ip, self, seats, planeSvg, planeModel){ // Post method
 
   self.remove();
 
-  console.log(JSON.stringify({
-    "seats": seats,
-    "planeVisualisation": planeSvg,
-    "planeName": planeModel
-  }))
+  fetch(document.getElementById("input").textContent)
+    .then(response => response.text())
+    .then(data => console.log(data));
 
-  fetch(`${ip}/createPlane`, {
-    method: "POST",
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      "seats": seats,
-      "planeVisualisation": planeSvg,
-      "planeName": planeModel
-    })
-  });
+  // fetch(`${ip}/createPlane`, {
+  //   method: "POST",
+  //   headers: {
+  //     'Content-Type': 'application/json'
+  //   },
+  //   body: JSON.stringify({
+  //     "seats": seats,
+  //     "planeVisualisation": planeSvg,
+  //     "planeName": planeModel
+  //   })
+  // });
+
 }
 
