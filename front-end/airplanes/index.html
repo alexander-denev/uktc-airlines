@@ -85,7 +85,6 @@
         fetch(`http://127.0.0.1:8080/planeData`) // Fetch the airplanes
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             render(data);
         })
         .catch(error => {
