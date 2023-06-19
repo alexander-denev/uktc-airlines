@@ -1,5 +1,5 @@
-const classDef = ["Economy"];
-const planeModel = "Airbus A319";
+const classDef = ["Business Class", "Premium Economy Class", "Economy Class"];
+const planeModel = "Airbus A330-200";
 
 
 
